@@ -37,12 +37,15 @@ export default async function handler(req, res) {
   const cleanTarget = target.replace("@", "").trim();
 
   // self stats mode
-  if (cleanTarget.toLowerCase() === "me") {
-    const count = (await redis.get(userKey)) || 0;
-    return res.send(
-      `${user} hugged others ${count} times on this stream.`
-    );
-  }
+if (
+  cleanTarget.toLowerCase() === "me" ||
+  cleanTarget.toLowerCase() === user.toLowerCase()
+) {
+  const count = (await redis.get(userKey)) || 0;
+  return res.send(
+    `${user} hugged others ${count} times on this stream.`
+  );
+}
 
   // update stats
   const global = await redis.incr(globalKey);
