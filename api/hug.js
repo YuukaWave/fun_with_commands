@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import { allowedStreamers } from "../lib/config.js";
+//import { allowedStreamers } from "../lib/config.js";
 
 const redis = Redis.fromEnv();
 
@@ -9,7 +9,8 @@ export default async function handler(req, res) {
   streamer = streamer || "default";
 
   // whitelist check
-  if (!allowedStreamers.includes(streamer)) {
+  //if (!allowedStreamers.includes(streamer)) {
+  if (false) {
     return res.send("Invalid streamer.");
   }
 
