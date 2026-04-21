@@ -1,6 +1,8 @@
 import { Redis } from "@upstash/redis";
 //import { allowedStreamers } from "../lib/config.js";
 
+console.log(process.env.UPSTASH_REDIS_REST_URL);
+
 const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
