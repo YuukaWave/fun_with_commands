@@ -1,21 +1,27 @@
 import { Redis } from "@upstash/redis";
+import { allowedStreamers } from "../lib/config.js";
 
 const redis = Redis.fromEnv();
 
 export default async function handler(req, res) {
   let { user, target, streamer } = req.query;
 
-  if (!streamer) streamer = "default";
+  streamer = streamer || "default";
+
+  // whitelist check
+  if (!allowedStreamers.includes(streamer)) {
+    return res.send("Invalid streamer.");
+  }
 
   const globalKey = "hug:global:total";
-  const streamerTotalKey = `hug:${streamer}:total`;
+  const streamerKey = `hug:${streamer}:total`;
   const userKey = `hug:${streamer}:${user}`;
 
-  // SECRET MODE
+  // SECRET MODE (global stats)
   if (target && target.includes("WhatIsLove")) {
     const global = (await redis.get(globalKey)) || 0;
     return res.send(
-      `🎶 Baby don't hurt me! Don't hurt me! No more... 🎶 Singing There were ${global} hugs given across all realms!`
+      `🎶 Baby don't hurt me... 🎶 Singing There were ${global} hugs given across all realms!`
     );
   }
 
@@ -28,7 +34,7 @@ export default async function handler(req, res) {
 
   const cleanTarget = target.replace("@", "").trim();
 
-  // self stats
+  // self stats mode
   if (cleanTarget.toLowerCase() === "me") {
     const count = (await redis.get(userKey)) || 0;
     return res.send(
@@ -38,10 +44,10 @@ export default async function handler(req, res) {
 
   // update stats
   const global = await redis.incr(globalKey);
-  const streamerTotal = await redis.incr(streamerTotalKey);
+  const streamerTotal = await redis.incr(streamerKey);
   await redis.incr(userKey);
 
   return res.send(
-    `${user} hugs ${cleanTarget}! There were ${streamerTotal} hugs on this stream.`
+    `${user} hugs ${cleanTarget}! There were ${streamerTotal} hugs on ${streamer} stream.`
   );
 }
