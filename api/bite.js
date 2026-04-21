@@ -25,7 +25,7 @@ export default function handler(req, res) {
   ];
 
   const fail = [
-    `${user} fails vs ${target}.`,
+    `${user} gets bitten by ${target} instead!`,
     `${user} misses ${target}.`,
     `${user} slips.`,
     `${user} gets dodged.`,
