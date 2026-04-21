@@ -1,13 +1,17 @@
 export default function handler(req, res) {
   let { user, target } = req.query;
 
-  // brak targetu (lub Nightbot podstawił usera automatycznie)
-  if (!target || target === user) {
-    // sprawdzamy czy user faktycznie wpisał swój nick
-    const raw = req.url;
-    if (!raw.includes("target=")) {
-      return res.send(`${user} tries to bite but misses.`);
-    }
+  // brak targetu lub tylko spacje
+  if (!target || target.trim() === "") {
+    return res.send(`${user} tries to bite but misses.`);
+  }
+
+  // usuń @ i ewentualne spacje
+  target = target.replace("@", "").trim();
+
+  // jeśli po czyszczeniu nadal puste → brak targetu
+  if (!target) {
+    return res.send(`${user} tries to bite but misses.`);
   }
 
   if (user.toLowerCase() === target.toLowerCase()) {
