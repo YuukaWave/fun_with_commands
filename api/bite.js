@@ -1,9 +1,18 @@
 export default function handler(req, res) {
-  const { user, target } = req.query;
+  let { user, target } = req.query;
 
-  if (!target) return res.send(`${user} tries to bite but misses.`);
-  if (user.toLowerCase() === target.toLowerCase())
+  // brak targetu (lub Nightbot podstawił usera automatycznie)
+  if (!target || target === user) {
+    // sprawdzamy czy user faktycznie wpisał swój nick
+    const raw = req.url;
+    if (!raw.includes("target=")) {
+      return res.send(`${user} tries to bite but misses.`);
+    }
+  }
+
+  if (user.toLowerCase() === target.toLowerCase()) {
     return res.send(`${user} bites themselves in confusion!`);
+  }
 
   const success = [
     `${user} bites ${target}!`,
