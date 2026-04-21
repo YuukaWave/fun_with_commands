@@ -21,7 +21,7 @@ export default function handler(req, res) {
   const success = [
     `${user} bites ${target}!`,
     `${user} chomps ${target}!`,
-    `${user} CRITS ${target}! That's gonna leave mark... marinTehe `
+    `${user} CRITS ${target}! That's gonna leave a mark... marinTehe `
   ];
 
   const fail = [
