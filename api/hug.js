@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   if (target && target.includes("WhatIsLove")) {
     const global = (await redis.get(globalKey)) || 0;
     return res.send(
-      `🎶 Baby don't hurt me... 🎶 There were ${global} hugs given across all realms!`
+      `🎶 Baby don't hurt me... 🎶 Singing There were ${global} hugs given across all realms!`
     );
   }
 
