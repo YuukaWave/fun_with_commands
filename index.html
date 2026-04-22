@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lost Soul</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      color: #f1f1f1;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #222;
+      color: white;
+      border: 1px solid #555;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>I don't know how you got here, you poor lost soul.</h1>
+  <p>But since you're here... try your luck.</p>
+  <button onclick="play()">Click me</button>
+  <p id="result"></p>
+
+  <script>
+    function play() {
+      const outcomes = [
+        "You found nothing.",
+        "You found a cookie 🍪",
+        "A wild bug appeared 🐛",
+        "You unlocked nothing. Again.",
+        "Secret ending? Nope."
+      ];
+      document.getElementById("result").innerText =
+        outcomes[Math.floor(Math.random() * outcomes.length)];
+    }
+  </script>
+</body>
+</html>
