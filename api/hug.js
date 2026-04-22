@@ -24,6 +24,14 @@ export default async function handler(req, res) {
     );
   }
 
+  // SECRET MODE 2
+  if (target && target.includes("Goober")) {
+    const global = (await redis.get(globalKey)) || 0;
+    return res.send(
+      `She may be a Goober, but she's our Goober! HUGGIES `
+    );
+  }
+  
   // no target
   if (!target || target.trim() === "") {
     return res.send(
